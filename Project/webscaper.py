@@ -41,8 +41,18 @@ connection = pymysql.connect(
 
 try:
   cursor = connection.cursor()
-  cursor.execute("INSERT INTO mytest (id) VALUES (1), (2)")
-  cursor.execute("SELECT * FROM mytest")
+  """
+  cursor.execute('''CREATE TABLE ResearchOpp (
+    Description VARCHAR(300) primary key,
+    Research_area VARCHAR(300) NOT NULL,
+    Timing VARCHAR(200) NOT NULL,
+    Deadline DATE NOT NULL)
+       ''')
+  """
+  for i in df.index:
+    cursor.execute("""INSERT INTO ReasearchOpp (Description, Research_area, Timing, Deadline)
+      values(?,?,?,?)""", (df["Description"][i], df["Research Area"][i], df["Timing"][i], df["Deadline"][i]))
+  cursor.execute("SELECT * FROM ResearchOpp")
   print(cursor.fetchall())
 finally:
   connection.close()
