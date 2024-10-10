@@ -2,37 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import numpy as np 
 import pandas as pd
-
-
-#For the mysql database connection
-"""
-!pip3 install pymysql
 import pymysql
 import os
-timeout = 10
-connection = pymysql.connect(
-  charset="utf8mb4",
-  connect_timeout=timeout,
-  cursorclass=pymysql.cursors.DictCursor,
-  db="defaultdb",
-  host=os.getenv('db_host'),
-  password=os.getenv('db_password'),
-  read_timeout=timeout,
-  port=os.getenv('db_port'),
-  user= os.getenv('db_user'),
-  write_timeout=timeout,
-)
+from dotenv import load_dotenv
 
-try:
-  cursor = connection.cursor()
-  cursor.execute("CREATE TABLE mytest (id INTEGER PRIMARY KEY)")
-  cursor.execute("INSERT INTO mytest (id) VALUES (1), (2)")
-  cursor.execute("SELECT * FROM mytest")
-  print(cursor.fetchall())
-finally:
-  connection.close()
-"""
-
+load_dotenv()
 #code from alice 
 data = []
 for i in range(9):
@@ -49,3 +23,26 @@ for i in range(9):
                 data.append(row_data)
 
 df = pd.DataFrame(data, columns=["Description", "Research Area", "Timing", "Deadline"])
+
+timeout = 10
+connection = pymysql.connect(
+  charset="utf8mb4",
+  connect_timeout=timeout,
+  cursorclass=pymysql.cursors.DictCursor,
+  db="defaultdb",
+  host=os.getenv("db_host"),
+  password=os.getenv("db_password"),
+  read_timeout=timeout,
+  port=int(os.getenv("db_port")),
+  user= os.getenv("db_user"),
+  write_timeout=timeout,
+)
+
+
+try:
+  cursor = connection.cursor()
+  cursor.execute("INSERT INTO mytest (id) VALUES (1), (2)")
+  cursor.execute("SELECT * FROM mytest")
+  print(cursor.fetchall())
+finally:
+  connection.close()
