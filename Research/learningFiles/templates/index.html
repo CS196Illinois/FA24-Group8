@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='res/favicon.png') }}">
+    <style>
+      /* Center all text and elements */
+      body {
+        text-align: center;
+      }
+
+      /* User list styles */
+      .user-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+        text-align: left;
+      }
+
+      .user-list li {
+        margin: 10px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .user-list li .delete-user {
+        display: none;
+        position: absolute;
+        top: 50%;
+        right: -60px;
+        transform: translateY(-50%);
+        background-color: #7289da;
+        color: #dcddde;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .user-list li:hover .delete-user {
+        display: block;
+      }
+
+      /* Form styles */
+      form {
+        margin-top: 20px;
+      }
+
+      label {
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      input[type="text"] {
+        border: 2px solid #7289da;
+        padding: 10px;
+        font-size: 16px;
+        color: #dcddde;
+        background-color: #36393f;
+      }
+
+      button[type="submit"] {
+        background-color: #7289da;
+        color: #dcddde;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #677bc4;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://pythonpythonme.netlify.app/index.html">
+    <div class="header-image">
+    <img src="https://pythonpythonme.netlify.app/PythonPythonME.png" alt="Header image">
+    </div>
+    </a>
+    <p></p>
+    <p></p>
+    <p></p>
+    <h1>User List</h1>
+    {% if users %}
+      <ul class="user-list">
+        {% for user in users %}
+          <li>
+            {{ user['username'] }} <span class="id">(ID: {{ user['id'] }})</span>
+            <form class="delete-user" method="post" action="/users/delete" onsubmit="return confirm('Are you sure you want to delete {{ user[',username,'] }}?')">
+              <input type="hidden" name="user_id" value="{{ user['id'] }}">
+              <button type="submit">Delete</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Set is empty. Add new users!</p>
+    {% endif %}
+    <form method="post" action="/users/create">
+      <label for="username">New User:</label>
+      <input type="text" name="username">
+      <button type="submit">Add</button>
+    </form>
+    <p></p>
+    <p></p>
+    <p></p>
+  </body>
+</html>
