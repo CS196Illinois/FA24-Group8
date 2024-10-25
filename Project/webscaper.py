@@ -57,7 +57,7 @@ connection = pymysql.connect(
 
 try:
   cursor = connection.cursor()
-  cursor.execute("DROP TABLE IF EXISTS ResearchOpp")
+  #cursor.execute("DROP TABLE IF EXISTS ResearchOpp")
   
   # Create the table with 'ID' as the auto-incrementing primary key
   cursor.execute("""
