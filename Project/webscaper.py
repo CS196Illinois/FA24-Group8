@@ -24,7 +24,10 @@ for i in range(9):
             if row_data:  
                 data.append(row_data)
 
-df = pd.DataFrame(data, columns=["Description", "Research Area", "Timing", "Deadline"])
+df = pd.DataFrame(data, columns=["Description", "Research Area", "Timing", "Deadline"]).fillna("Unknown")
+# Remove duplicates and rows with missing values
+df = df.drop_duplicates()
+
 
 # Function to clean and format the 'Deadline' column
 def clean_deadline(deadline_str):
