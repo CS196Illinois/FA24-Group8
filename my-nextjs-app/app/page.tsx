@@ -1,101 +1,145 @@
-import Image from "next/image";
+// app/page.tsx
+"use client"
 
-export default function Home() {
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export default function Signup() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage('');
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      setMessage(data.message);
+      setEmail('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to register');
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* Header */}
+        <header className="flex justify-between items-center">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center">
+              <div className="flex items-center cursor-pointer">
+                <Image
+                  src="/logo.svg"
+                  alt="Nexus Scholar"
+                  width={32}
+                  height={32}
+                />
+                <span className="ml-2 text-xl font-semibold">Nexus Scholar</span>
+              </div>
+            </Link>
+          </div>
+          
+          <div>
+            <span className="text-gray-400">Already joined? </span>
+            <Link href="/login" className="text-white hover:underline">
+              Log in
+            </Link>
+          </div>
+        </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* Main Content */}
+        <main className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-20">
+          {/* Left Column */}
+          <div className="flex flex-col justify-center">
+            <h1 className="text-3xl md:text-4xl font-medium mb-6">
+              Nexus Scholar is a platform to assist undergrads in their search for research opportunities
+            </h1>
+            <p className="text-gray-400 text-lg">
+              Built by UIUC Students
+            </p>
+          </div>
+
+          {/* Right Column */}
+          <div className="flex flex-col justify-rigth lg:items-start">
+            <div className="w-full max-w-md">
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+                Try Nexus Scholar for Free
+              </h2>
+              <p className="text-gray-400 mb-6">
+                Enter your email address to sign up and find new opportunities.
+              </p>
+
+              {message && (
+                <div className="mb-4 p-4 bg-green-500/10 border border-green-500 rounded-lg text-green-500">
+                  {message}
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-4 p-4 bg-red-500/10 border border-red-500 rounded-lg text-red-500">
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-white text-black py-3 px-4 rounded-lg font-medium
+                           hover:bg-gray-100 transition-colors"
+                >
+                  Get Started
+                </button>
+              </form>
+
+              <p className="mt-4 text-sm text-gray-400">
+                By continuing, you agree to our{' '}
+                <Link href="/terms" className="text-gray-300 hover:underline">
+                  Terms of Service
+                </Link>
+                {' '}and{' '}
+                <Link href="/privacy" className="text-gray-300 hover:underline">
+                  Privacy Policy
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
