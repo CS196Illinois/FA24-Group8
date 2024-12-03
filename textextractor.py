@@ -46,7 +46,7 @@ nlpBot = Chatbot()
 
 
 tester = Extractor(sampleResume, jobDesc)
-print(tester.job_desc)
+print(nlpBot.resumeReview(sampleResume, jobDesc,tester.calculate_similarity()))
 # print(nlpBot.resumeReview(tester.resume, tester.job_desc, tester.calculate_similarity()))
 
 
