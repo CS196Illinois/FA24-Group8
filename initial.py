@@ -1,6 +1,8 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
 from werkzeug.utils import secure_filename
+from textextractor import Extractor
+from bot import Chatbot
 
 UPLOAD_FOLDER = '/Users/sriramnatarajan/Documents/FA24-Group8/uploads'
 
@@ -8,28 +10,38 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 
+@app.route('/') 
+def main(): 
+    return render_template("index.html") 
+  
+  
+@app.route('/upload', methods=['POST']) 
+def upload(): 
+    if request.method == 'POST': 
+  
+        # Get the list of files from webpage 
+        files = request.files.getlist("file") 
+        job_desc = request.files.getlist("job_desc")
+    
+        files[0].save(os.path.join(app.config['UPLOAD_FOLDER'], files[0].filename))
+        job_desc[0].save(os.path.join(app.config['UPLOAD_FOLDER'], job_desc[0].filename))
 
-@app.route('/', methods = ['GET', 'POST'] )
-def index():
-    
-    if (request.method == "POST"):
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('download_file', name=filename))
-    
-    return render_template('index.html')
-    
+        # Iterate for each file in the files List, and Save them 
+       
+        return redirect(url_for('uploads', resumeName=files[0].filename, jobDesc=job_desc[0].filename))
 
-@app.route('/uploads/<name>')
-def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+    return render_template("index.html")
 
-    
+@app.route('/uploads/<resumeName>/<jobDesc>') 
+def uploads(resumeName, jobDesc):
+    resumePath = (str(UPLOAD_FOLDER) + "/" + resumeName)
+    jobPath = (str(UPLOAD_FOLDER) + "/" + jobDesc)
+    tester = Extractor(resumePath, jobPath)
+    nlpBot = Chatbot()
+    similarityReview = nlpBot.resumeReview(resumePath, jobPath, tester.calculate_similarity())
+
+    return render_template("uploads.html", variable=similarityReview)
+
 
 if __name__ == "__main__":
 

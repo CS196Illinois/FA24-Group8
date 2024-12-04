@@ -40,13 +40,13 @@ class Extractor:
     
     
 
-sampleResume = "/Users/sriramnatarajan/Documents/FA24-Group8/uploads/sampleResume.pdf"
-jobDesc = "/Users/sriramnatarajan/Documents/FA24-Group8/uploads/sampleJobDesc.pdf"
-nlpBot = Chatbot()
+# sampleResume = "/Users/sriramnatarajan/Documents/FA24-Group8/uploads/sampleResume.pdf"
+# jobDesc = "/Users/sriramnatarajan/Documents/FA24-Group8/uploads/sampleJobDesc.pdf"
+# nlpBot = Chatbot()
 
 
-tester = Extractor(sampleResume, jobDesc)
-print(nlpBot.resumeReview(sampleResume, jobDesc,tester.calculate_similarity()))
+# tester = Extractor(sampleResume, jobDesc)
+
 # print(nlpBot.resumeReview(tester.resume, tester.job_desc, tester.calculate_similarity()))
 
 
