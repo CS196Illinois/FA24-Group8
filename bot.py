@@ -27,6 +27,7 @@ class Chatbot:
         except Exception as e:
             return "failed"
 
+
     #Function for getting the professor's most recent paper (Used in chatbot)
     def profPaper(self, name):
         base_url = "https://api.openalex.org/authors"
@@ -40,6 +41,94 @@ class Chatbot:
         works_response = requests.get(self.data, params={"sort": "publication_year:desc"})
 
         return (works_response.json()["results"][0]["title"])
+    
+
+    def emailGenerator(self, type, studentName, collegeName, studentMajor, profName ):
+
+        #Creating Message History For Initial Email
+        if (type == "initial"):
+            try:
+                profResearch = self.profPaper(profName)
+            
+            except Exception as e:
+                profResearch = "Unknown"
+
+            with open('/Users/sriramnatarajan/Documents/FA24-Group8/EmailTemplates/initialemail.txt', 'r') as file:
+                text = file.read()
+                params = [profName, studentName, studentMajor, collegeName, profResearch, studentName, ""]
+
+            response = ""
+            message1 = text.split("[")
+            for i in range(len(message1)):
+                response += message1[i] + params[i]
+
+
+            
+
+            self.message_history = [
+                {"role": "system","content": "You are an assistant that is given a cold email template. With that template, you must adhere to it and fill in the blanks for every single paranthases where it asks you to fill in the blanks"},
+                {"role": "user", "content": response},
+                { "role": "assistant", "content": "Understood. I will use this template as the foundation for generating emails." }
+            ]
+
+            try:  
+                response = openai.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages = self.message_history
+                
+                )
+                reply_content = response.choices[0].message.content
+            
+                return reply_content
+
+            except Exception as e:
+                return "failed"
+            
+        elif (type == "followup"):
+            try:
+                profResearch = self.profPaper(profName)
+            
+            except Exception as e:
+                profResearch = "Unknown"
+
+            with open('/Users/sriramnatarajan/Documents/FA24-Group8/EmailTemplates/followup.txt', 'r') as file:
+                text = file.read()
+                params = [profName, profResearch, studentName, ""]
+
+            response = ""
+            message1 = text.split("[")
+            for i in range(len(message1)):
+                response += message1[i] + params[i]
+
+
+            
+
+            self.message_history = [
+                {"role": "system","content": "You are an assistant that is given a followup email template. With that template, you must adhere to it and fill in the blanks for every single paranthases where it asks you to fill in the blanks"},
+                {"role": "user", "content": response},
+                { "role": "assistant", "content": "Understood. I will use this template as the foundation for generating emails." }
+            ]
+
+            try:  
+                response = openai.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages = self.message_history
+                
+                )
+                reply_content = response.choices[0].message.content
+            
+                return reply_content
+
+            except Exception as e:
+                return "failed"
+        else:
+            return "failed"
+
+
+
+# tester = Chatbot()
+# print(tester.emailGenerator("followup", "Sriram Natarajan", "UIUC", "CS + Ling", "Tarek Abdelzaher"))
+
 
 
 
