@@ -40,8 +40,8 @@ def filter_opportunities():
 
 @app.route('/get-options', methods=['GET'])
 def get_options():
-    research_areas = df['Research Area'].dropna().unique().tolist()
-    opportunity_timings = df['Opportunity Timing'].dropna().unique().tolist()
+    research_areas = df['Research Area'].dropna().str.split(", ").explode().str.strip().drop_duplicates().sort_values().tolist()
+    opportunity_timings = df['Opportunity Timing'].dropna().str.split(", ").explode().str.strip().drop_duplicates().sort_values().tolist()
 
     return jsonify({
         'research_areas': research_areas,

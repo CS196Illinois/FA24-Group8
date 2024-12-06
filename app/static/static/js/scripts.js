@@ -39,8 +39,9 @@ async function loadOptions() {
     const response = await fetch('/get-options');
     const data = await response.json();
 
-    // 填充 Research Area 選項
+    // Research Area Choices
     const researchAreaSelect = document.getElementById('researchArea');
+    researchAreaSelect.innerHTML = '<option value="">-- Select Research Area --</option>';
     data.research_areas.forEach(area => {
         const option = document.createElement('option');
         option.value = area;
@@ -48,8 +49,9 @@ async function loadOptions() {
         researchAreaSelect.appendChild(option);
     });
 
-    // 填充 Opportunity Timing 選項
+    // Opportunity Timing Choices
     const opportunityTimingSelect = document.getElementById('opportunityTiming');
+    opportunityTimingSelect.innerHTML = '<option value="">-- Select Opportunity Timing --</option>';
     data.opportunity_timings.forEach(timing => {
         const option = document.createElement('option');
         option.value = timing;
@@ -58,5 +60,4 @@ async function loadOptions() {
     });
 }
 
-// 在頁面加載時執行
 document.addEventListener('DOMContentLoaded', loadOptions);
