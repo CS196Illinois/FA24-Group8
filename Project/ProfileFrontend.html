@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile and Data Scraper</title>
+</head>
+<body>
+    <h1>Create Your Profile</h1>
+    <form id="profileForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required><br><br>
+
+        <label for="major">Major:</label>
+        <input type="text" id="major"><br><br>
+
+        <button type="submit">Save Profile</button>
+    </form>
+
+    <h1>Scrape Data</h1>
+    <button id="scrapeButton">Scrape Data</button>
+
+    <script>
+        const profileForm = document.getElementById('profileForm');
+        const scrapeButton = document.getElementById('scrapeButton');
+
+        profileForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const major = document.getElementById('major').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/save-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password, email, major }),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert(result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        scrapeButton.addEventListener('click', async function() {
+            try {
+                const response = await fetch('http://localhost:5000/scrape', {
+                    method: 'POST',
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    console.log(result.data);
+                    alert(result.message);
+                } else {
+                    alert(result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
