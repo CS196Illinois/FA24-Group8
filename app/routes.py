@@ -24,7 +24,9 @@ def filter_opportunities():
 
     filtered_df = df.copy()
     if research_area:
-        filtered_df = filtered_df[filtered_df['Research Area'].str.contains(research_area, case=False, na=False)]
+        filtered_df = filtered_df[
+            filtered_df['Research Area'].str.contains(research_area, case=False, na=False)
+        ]
     if opportunity_timing:
         filtered_df = filtered_df[filtered_df['Opportunity Timing'].str.contains(opportunity_timing, case=False, na=False)]
     if location:
@@ -33,4 +35,15 @@ def filter_opportunities():
         filtered_df['Deadline Date'] = pd.to_datetime(filtered_df['Deadline Date'], errors='coerce')
         filtered_df = filtered_df[filtered_df['Deadline Date'] <= pd.to_datetime(deadline_before)]
 
+    filtered_df = filtered_df.fillna("")
     return jsonify(filtered_df.to_dict(orient='records'))
+
+@app.route('/get-options', methods=['GET'])
+def get_options():
+    research_areas = df['Research Area'].dropna().str.split(", ").explode().str.strip().drop_duplicates().sort_values().tolist()
+    opportunity_timings = df['Opportunity Timing'].dropna().str.split(", ").explode().str.strip().drop_duplicates().sort_values().tolist()
+
+    return jsonify({
+        'research_areas': research_areas,
+        'opportunity_timings': opportunity_timings
+    })

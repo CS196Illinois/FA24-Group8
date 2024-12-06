@@ -9,14 +9,25 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Research Opportunity Filter</h1>
-        <form id="filterForm" class="row g-3">
+        <form id="filterForm" class="row gy-3 gx-4">
             <div class="col-md-4">
                 <label for="researchArea" class="form-label">Research Area</label>
-                <input type="text" class="form-control" id="researchArea" name="research_area" placeholder="e.g.: Science">
+                <select class="form-select" id="researchArea" name="research_area">
+                    <option value="">-- Select Research Area --</option>
+                    <option value="Science">Science</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Health">Health</option>
+                    <option value="Social Sciences">Social Sciences</option>
+                </select>
             </div>
             <div class="col-md-4">
                 <label for="opportunityTiming" class="form-label">Opportunity Timing</label>
-                <input type="text" class="form-control" id="opportunityTiming" name="opportunity_timing" placeholder="e.g.: Summer">
+                <select class="form-select" id="opportunityTiming" name="opportunity_timing">
+                    <option value="">-- Select Opportunity Timing --</option>
+                    <option value="Summer">Summer</option>
+                    <option value="Fall">Fall</option>
+                    <option value="Spring">Spring</option>
+                </select>
             </div>
             <div class="col-md-4">
                 <label for="location" class="form-label">Location</label>
@@ -26,8 +37,8 @@
                 <label for="deadlineBefore" class="form-label">Deadline Before</label>
                 <input type="date" class="form-control" id="deadlineBefore" name="deadline_before">
             </div>
-            <div class="col-12">
-                <button type="button" class="btn btn-primary" onclick="filterResults()">Filter</button>
+            <div class="col-12 text-center">
+                <button type="button" class="btn btn-primary px-4 py-2" onclick="filterResults()">Filter</button>
             </div>
         </form>
 
@@ -45,44 +56,13 @@
                     </tr>
                 </thead>
                 <tbody id="resultsTable">
-                    <!-- Filter results will be displayed here -->
+                    <!-- Filtered results will appear here -->
                 </tbody>
             </table>
         </div>
     </div>
 
-    <script>
-        async function filterResults() {
-            // Get user input for filter criteria
-            const researchArea = document.getElementById('researchArea').value;
-            const opportunityTiming = document.getElementById('opportunityTiming').value;
-            const location = document.getElementById('location').value;
-            const deadlineBefore = document.getElementById('deadlineBefore').value;
-
-            // Build the API request URL
-            const apiUrl = `/filter?research_area=${researchArea}&opportunity_timing=${opportunityTiming}&location=${location}&deadline_before=${deadlineBefore}`;
-
-            // Send the request to the backend
-            const response = await fetch(apiUrl);
-            const results = await response.json();
-
-            // Render results into the table
-            const resultsTable = document.getElementById('resultsTable');
-            resultsTable.innerHTML = ''; // Clear the table
-            results.forEach(result => {
-                const row = `
-                    <tr>
-                        <td>${result.Topic}</td>
-                        <td>${result.Description}</td>
-                        <td>${result['Research Area']}</td>
-                        <td>${result['Opportunity Timing']}</td>
-                        <td>${result['Deadline Date']}</td>
-                        <td>${result.Location}</td>
-                    </tr>
-                `;
-                resultsTable.innerHTML += row;
-            });
-        }
-    </script>
+    <!-- Include the JavaScript file -->
+    <script src="/static/static/js/scripts.js"></script>
 </body>
 </html>
