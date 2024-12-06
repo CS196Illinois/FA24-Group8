@@ -32,7 +32,7 @@ df1 = df.drop_duplicates()
 #similarity_df_ra = pd.DataFrame(cosine_similarity_ra, index=df1['Description'], columns=df1['Description'])
 # print(similarity_df.head)
 
-#stu = input('Enter a research you are interested in: ')
+#stu = input('Enter the research area you are interested in: ')
 #research_area_index = similarity_df_ra.index.get_loc(stu)
 #top_10 = similarity_df_ra.iloc[research_area_index].sort_values(ascending=False)[1:11]
 
@@ -41,7 +41,7 @@ tfidf = TfidfVectorizer()
 description = df1['Description']
 tfidf_matrix_d = tfidf.fit_transform(description)
 cosine_similarity_d = cosine_similarity(tfidf_matrix_d)
-#print(cosine_similarity)
+# print(cosine_similarity)
 similarity_df_d = pd.DataFrame(cosine_similarity_d, index=df1['Description'], columns=df1['Description'])
 # print(similarity_df.head)
 
