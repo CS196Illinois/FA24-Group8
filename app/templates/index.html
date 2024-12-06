@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Opportunity Filter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Research Opportunity Filter</h1>
+        <form id="filterForm" class="row g-3">
+            <div class="col-md-4">
+                <label for="researchArea" class="form-label">Research Area</label>
+                <input type="text" class="form-control" id="researchArea" name="research_area" placeholder="e.g.: Science">
+            </div>
+            <div class="col-md-4">
+                <label for="opportunityTiming" class="form-label">Opportunity Timing</label>
+                <input type="text" class="form-control" id="opportunityTiming" name="opportunity_timing" placeholder="e.g.: Summer">
+            </div>
+            <div class="col-md-4">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" placeholder="e.g.: Various">
+            </div>
+            <div class="col-md-4">
+                <label for="deadlineBefore" class="form-label">Deadline Before</label>
+                <input type="date" class="form-control" id="deadlineBefore" name="deadline_before">
+            </div>
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" onclick="filterResults()">Filter</button>
+            </div>
+        </form>
+
+        <div class="mt-5">
+            <h3>Filter Results</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Research Area</th>
+                        <th>Timing</th>
+                        <th>Deadline</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable">
+                    <!-- Filter results will be displayed here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function filterResults() {
+            // Get user input for filter criteria
+            const researchArea = document.getElementById('researchArea').value;
+            const opportunityTiming = document.getElementById('opportunityTiming').value;
+            const location = document.getElementById('location').value;
+            const deadlineBefore = document.getElementById('deadlineBefore').value;
+
+            // Build the API request URL
+            const apiUrl = `/filter?research_area=${researchArea}&opportunity_timing=${opportunityTiming}&location=${location}&deadline_before=${deadlineBefore}`;
+
+            // Send the request to the backend
+            const response = await fetch(apiUrl);
+            const results = await response.json();
+
+            // Render results into the table
+            const resultsTable = document.getElementById('resultsTable');
+            resultsTable.innerHTML = ''; // Clear the table
+            results.forEach(result => {
+                const row = `
+                    <tr>
+                        <td>${result.Topic}</td>
+                        <td>${result.Description}</td>
+                        <td>${result['Research Area']}</td>
+                        <td>${result['Opportunity Timing']}</td>
+                        <td>${result['Deadline Date']}</td>
+                        <td>${result.Location}</td>
+                    </tr>
+                `;
+                resultsTable.innerHTML += row;
+            });
+        }
+    </script>
+</body>
+</html>
