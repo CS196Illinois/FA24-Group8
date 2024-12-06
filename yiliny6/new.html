@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Finder</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and Centering */
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Container for Page Content */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .hero form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .hero input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            width: 70%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .hero button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background-color: #45a049;
+        }
+
+        /* Featured Research Section */
+        .featured h2 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <header>
+            <nav>
+                <a href="#">Profile</a>
+                <a href="#">Research Recommendation</a>
+                <a href="#">Email Template</a>
+                <a href="#">Filter</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Discover Research Opportunity</h1>
+            <p>Find research topics, mentors, and lab experiments.</p>
+            <form>
+                <input type="text" placeholder="Search by topic or title">
+                <button type="submit">Search</button>
+            </form>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; Research Recommendation Platform for UIUC Students </p>
+        </footer>
+    </div>
+</body>
+</html>
