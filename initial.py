@@ -13,7 +13,8 @@ app.secret_key = 'super secret key'
 @app.route('/') 
 def main(): 
     return render_template("index.html") 
-  
+
+
   
 @app.route('/upload', methods=['POST']) 
 def upload(): 
@@ -42,6 +43,29 @@ def uploads(resumeName, jobDesc):
 
     return render_template("uploads.html", variable=similarityReview)
 
+@app.route('/emails', methods=['POST'])
+def email():
+    
+    if request.method == 'POST':
+
+        type = request.form['type']
+        
+        lname = request.form['lname']
+        collegeName = request.form['collegeName']
+        major = request.form['major']
+        profName = request.form['profName']
+
+        return redirect(url_for('emails', type=type, lname=lname, collegeName=collegeName, major=major, profName=profName))
+
+    return render_template("index.html")
+
+@app.route('/emails/<type>/<lname>/<collegeName>/<major>/<profName>') 
+def emails(type, lname, collegeName, major, profName):
+    
+    emailGen = Chatbot()
+    responses = emailGen.emailGenerator(type, lname, collegeName, major, profName)
+
+    return render_template("emails.html", variable=responses)
 
 if __name__ == "__main__":
 
