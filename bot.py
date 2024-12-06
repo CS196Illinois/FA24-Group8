@@ -24,6 +24,7 @@ class Chatbot:
             reply_content = response.choices[0].message.content
             return reply_content
 
+
         except Exception as e:
             return "failed"
 
