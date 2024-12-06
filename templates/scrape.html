@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Opportunities</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">UIUC Research Opportunities</h1>
+        <button id="scrapeButton" class="btn btn-primary w-100">Fetch Research Opportunities</button>
+        
+        <div id="results" class="mt-4">
+            <!-- Results will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('scrapeButton').addEventListener('click', async () => {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p class="text-center">Fetching data, please wait...</p>';
+
+            try {
+                // Make a POST request to the backend
+                const response = await fetch('http://127.0.0.1:5000/scrape', { method: 'POST' });
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Parse and display the data
+                    const researchData = JSON.parse(data.data);
+
+                    console.log(researchData);
+
+                    if (researchData.length === 0) {
+                        resultsDiv.innerHTML = '<p class="text-center text-warning">No data found.</p>';
+                    } else {
+                        let tableHTML = `
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        ${Object.keys(researchData[0]).map(key => `<th>${key}</th>`).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${researchData.map(row => `
+                                        <tr>
+                                            ${Object.values(row).map(value => `<td>${value}</td>`).join('')}
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                        resultsDiv.innerHTML = tableHTML;
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<p class="text-danger text-center">Error: ${data.error}</p>`;
+                }
+            } catch (err) {
+                resultsDiv.innerHTML = `<p class="text-danger text-center">Error fetching data: ${err.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
