@@ -5,8 +5,8 @@ from webscraper import scrape_and_store
 # Initialize Flask app
 app = Flask(__name__)
 
-# Enable CORS for all routes
 CORS(app)
+
 
 @app.route('/')
 def home():
