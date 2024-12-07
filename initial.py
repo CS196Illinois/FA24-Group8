@@ -90,20 +90,19 @@ def recommend_opportunities_filter():
     recommended_df3 = pd.DataFrame(columns=columns)
     recommended_df = research_opps.copy()
     
-    
-
     if researchInterest1:
-        recommended_df1 = recommended_df[recommended_df['Description'].str.contains(researchInterest1, case=False, na=False)]
+        recommended_df1 = recommended_df[recommended_df['Description'].str.contains('\\b(' + researchInterest1 + ')\\b', regex = True, case=False, na=False)]
     if researchInterest2:
-        recommended_df2 = recommended_df[recommended_df['Description'].str.contains(researchInterest2, case=False, na=False)]
+        recommended_df2 = recommended_df[recommended_df['Description'].str.contains('\\b(' + researchInterest2 + ')\\b', case=False, na=False)]
     if researchInterest3:
-        recommended_df3 = recommended_df[recommended_df['Description'].str.contains(researchInterest3, case=False, na=False)]
+        recommended_df3 = recommended_df[recommended_df['Description'].str.contains('\\b(' + researchInterest3 + ')\\b', case=False, na=False)]
     if researchInterest1 or researchInterest2 or researchInterest3:
         recommended_by_model_tuples = recommendation.recommend_RO(research_opps, research_interests)
         recommended_by_model_indices = [int(x[0]) for x in recommended_by_model_tuples]
-        print(recommended_by_model_indices)
         recommended_by_model = research_opps.loc[research_opps.index[recommended_by_model_indices]]
-        recommended_df = pd.concat([recommended_df1, recommended_df2, recommended_df3, recommended_by_model], ignore_index=True)
+        recommended_df_w_dupes = pd.concat([recommended_df1, recommended_df2, recommended_df3, recommended_by_model], ignore_index=True)
+        recommended_df = recommended_df_w_dupes.drop_duplicates(ignore_index=True)
+    
     return recommended_df.to_json(orient='records')
 
 @app.route('/webscrape', methods=['GET'])
