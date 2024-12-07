@@ -36,7 +36,7 @@ class Extractor:
         vectorizer = TfidfVectorizer()
         tfidf_matrix = vectorizer.fit_transform([self.resume, self.job_desc])
         similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
-        return similarity[0][0]
+        return 100 * similarity[0][0]
     
     
 

@@ -23,7 +23,7 @@ global research_opps
 UPLOAD_FOLDER = ''
 
 app = Flask(__name__)
-UPLOAD_FOLDER = '/Users/sriramnatarajan/Documents/FA24-Group8/uploads'
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 
@@ -46,6 +46,10 @@ def go_to_filter():
 @app.route("/resume_review_cold_email.html")
 def goto_RRCE():
     return render_template("resume_review_cold_email.html")
+
+@app.route("/coldemails.html")
+def goto_coldEmails():
+    return render_template("coldemails.html")
     
 @app.route('/search', methods = ['GET', 'POST'])
 def search():

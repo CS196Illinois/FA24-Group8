@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}IlliniResearch | Resume Review and Cold Emails{% endblock %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +16,9 @@
 </head>
 <body class="d-flex align-items-center justify-content-center vh-100">
     <div class="text-center p-5 confirmation-box">
-        <h1 class="display-4 fw-bold mb-4 text-white">We Have Received Your File!</h1>
-        <p class="lead text-white-50 fade-in-text"> <strong class="text-white">{{ variable }}</strong></p>
+        <h1 class="display-4 fw-bold mb-4 text-black">We Have Received Your File!</h1>
+        <p class="lead text-white-50 fade-in-text"> <strong class="text-black">{{ variable }}</strong></p>
     </div>
 </body>
 </html>
+{% endblock %}

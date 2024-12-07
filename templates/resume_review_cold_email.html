@@ -55,12 +55,12 @@ form .form-select:hover {
 }
 
 .btn-success {
-  background: linear-gradient(45deg, #28a745, #1e7e34);
+  background: linear-gradient(45deg, #007bff, #0056b3);
   border: none;
 }
 
 .btn-success:hover {
-  background: linear-gradient(45deg, #1e7e34, #155724);
+  background: linear-gradient(45deg, #0056b3, #003f7f);
 }
 
 /* Subtle shadow for forms */
@@ -89,44 +89,6 @@ form .form-select:hover {
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-6 bg-white p-4 rounded shadow-sm">
-                <h2 class="h4 mb-3 text-success">Cold Email Generator</h2>
-                <form action="/emails" method="POST" enctype="multipart/form-data">
-
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Email Type:</label>
-                        <select name="type" id="type" required class="form-select">
-                            <option value="type" selected>Select Type</option>
-                            <option value="initial">Initial</option>
-                            <option value="followup">Follow up</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="lname" class="form-label">Full Name:</label>
-                        <input type="text" id="lname" name="lname" class="form-control" placeholder="John Doe">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="collegeName" class="form-label">College Name:</label>
-                        <input type="text" id="collegeName" name="collegeName" class="form-control" placeholder="Harvard University">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="major" class="form-label">Major:</label>
-                        <input type="text" id="major" name="major" class="form-control" placeholder="Computer Science">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="profName" class="form-label">Professor's Name:</label>
-                        <input type="text" id="profName" name="profName" class="form-control" placeholder="Dr. Smith">
-                    </div>
-
-                    <button type="submit" class="btn btn-success w-100">Submit</button>
-                </form>
-            </div>
-        </div>
 
     </div>
 </div>

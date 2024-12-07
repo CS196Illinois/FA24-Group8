@@ -1,13 +1,34 @@
 {% extends "base.html" %}
 {% block title %}IlliniResearch | Home{% endblock %}
 {% block linkdownload %}class = "active"{% endblock %}
+
+<!-- Add inline CSS for .card -->
+{% block head %}
+<style>
+    h1 {text-align: center;
+        font-size: 65px;}
+    .card {
+        max-width: 600px;   /* Adjust to your desired width */
+        margin: 0 auto;     /* Centers the card horizontally */
+        min-height: 400px;  /* Ensures it has some extra vertical space */
+        padding: 2rem;      /* Adds vertical spacing inside the card */
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div id = "intro">
-    Hello! This is IlliniResearch. Our goal is to make research opportunities more accessible to students.
-    A wealth of research opportunities is released every month in UIUC, but not all students know how to find the right ones for their interests. With IlliniResearch, students will be able to easily discover these opportunities that suit their research interests.
-    IlliniResearch has 3 pages.
-    First, students are able to access and filter all of the research opportunities from the <a href="https://researchops.web.illinois.edu/?page=">UIUC Summer Undergraduate Research Opportunities Database</a> by research areas, opportunity timing, and application deadline.
-    Next, students are able to use the Research Opportunity Recommender to find research opportunities tailored to their research interests. Our recommendation model measures the semantic similarity between research interests and research descriptions to tailor recommendations to the user's research interests.
-    On the final page of IlliniResearch, users can upload their resume and the job description to learn how to improve their resume for different jobs. Users can also generate cold emails to send to professors.
+
+<h1 >Illini Research</h1>
+
+<div id="intro" class="card mb-4">
+    <div class="card-body">
+        Hello! This is IlliniResearch. Our goal is to make research opportunities more accessible to students.
+        A wealth of research opportunities is released every month in UIUC, but not all students know how to find the right ones for their interests. With IlliniResearch, students will be able to easily discover these opportunities that suit their research interests.
+        IlliniResearch has 3 pages.
+        First, students are able to access and filter all of the research opportunities from the <a href="https://researchops.web.illinois.edu/?page=">UIUC Summer Undergraduate Research Opportunities Database</a> by research areas, opportunity timing, and application deadline.
+        Next, students are able to use the Research Opportunity Recommender to find research opportunities tailored to their research interests. Our recommendation model measures the semantic similarity between research interests and research descriptions to tailor recommendations to the user's research interests.
+        On the final page of IlliniResearch, users can upload their resume and the job description to learn how to improve their resume for different jobs. Users can also generate cold emails to send to professors.
+    </div>
 </div>
+
 {% endblock %}

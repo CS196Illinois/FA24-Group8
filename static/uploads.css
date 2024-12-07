@@ -1,17 +1,21 @@
 body {
     margin: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
     /* Create a smooth gradient background */
-    background: linear-gradient(135deg, #3c1053, blue);
+    
     background-size: cover;
     background-position: center;
+    height: 100vh; /* Ensure it covers the full height */
     overflow: hidden;
 }
 
 .confirmation-box {
-    background: rgba(0,0,0,0.4);
+    
     border-radius: 0.75rem;
-    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    
 }
 
 /* Fade-in animation for the text */
@@ -25,11 +29,6 @@ body {
     to {
         opacity: 1;
     }
-}
-
-/* Make the heading glow slightly */
-h1 {
-    text-shadow: 0 0 10px rgba(255,255,255,0.6);
 }
 
 strong.text-white {
