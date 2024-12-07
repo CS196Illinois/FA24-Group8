@@ -10,12 +10,11 @@ from nltk.stem.lancaster import LancasterStemmer
 from nltk.stem import SnowballStemmer
 
 # make words to exclude from processing
-def make_stop_words(research_interests):
+def make_stop_words():
     global stop_words
     words = ['program', 'undergraduate', 'students', 'intern', 'experience', 'internship', \
         'university', 'college', 'research', 'opportunity', \
             'fellows', 'scholars', 'undergrad']
-    words += research_interests
     stopwords = stop_words.union(set(words))
     
     my_stop_words = text.ENGLISH_STOP_WORDS.union(stopwords)
@@ -33,15 +32,15 @@ def preprocessor(text, my_stop_words):
 
 def stem_tag_docs(docs, my_stop_words):
     ls = LancasterStemmer()
-    results = docs.apply(lambda r: TaggedDocument(words=preprocessor(r['Description'], my_stop_words), tags=[str(r['Id'])]), axis=1)
+    results = docs.apply(lambda r: TaggedDocument(words=preprocessor(r["Title"] + r['Description'], my_stop_words), tags=[str(r['Id'])]), axis=1)
     return results.tolist()
 
 def recommend_RO(research_opps, research_interests):
-    my_stop_words = make_stop_words(research_interests)
+    my_stop_words = make_stop_words()
     tagged_research_opps = stem_tag_docs(research_opps, my_stop_words)
     model = Doc2Vec(vector_size=50, min_count=1, epochs=40)
     model.build_vocab(tagged_research_opps)
     model.train(tagged_research_opps, total_examples=model.corpus_count, epochs=model.epochs)
-    vector = model.infer_vector(research_opps.iloc[0, 1].split())
-    d2v_test = model.docvecs.most_similar(positive=[vector,], topn=10)
+    RI_inferred_vector = model.infer_vector(research_interests)
+    d2v_test = model.docvecs.most_similar(positive=[RI_inferred_vector,], topn=10)
     return d2v_test
