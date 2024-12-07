@@ -9,12 +9,15 @@ import json
 import requests
 from concurrent.futures import ThreadPoolExecutor
 import sys
+
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
 DATA_PATH = os.path.join(BASE_DIR, 'data', 'research_opportunities.csv')  
 
 python_files_dir = os.path.join(BASE_DIR, 'python')
 sys.path.append(python_files_dir)
 import webscraper
+import recommendation
  
 global research_opps
 UPLOAD_FOLDER = ''
@@ -39,6 +42,10 @@ def go_to_recommendation():
 def go_to_filter(): 
     return render_template("filter.html") 
 
+@app.route("/resume_review_cold_email.html")
+def goto_RRCE():
+    return render_template("resume_review_cold_email.html")
+    
 @app.route('/search', methods = ['GET', 'POST'])
 def search():
     query = request.args.get('query')
@@ -75,11 +82,14 @@ def recommend_opportunities_filter():
     researchInterest2 = request.args.get('researchInterest2')
     researchInterest3 = request.args.get('researchInterest3')
     
+    research_interests = [researchInterest1, researchInterest2, researchInterest3]
     columns = ["Title", "Description", "DetailURL", "Research Area", "Opportunity Timing", "Deadline Date"]
     recommended_df1 = pd.DataFrame(columns=columns)
     recommended_df2 = pd.DataFrame(columns=columns)
     recommended_df3 = pd.DataFrame(columns=columns)
     recommended_df = research_opps.copy()
+
+    recommended_by_model = recommendation.recommend_RO(research_opps, research_interests)
 
     if researchInterest1:
         recommended_df1 = recommended_df[recommended_df['Description'].str.contains(researchInterest1, case=False, na=False)]
@@ -88,8 +98,7 @@ def recommend_opportunities_filter():
     if researchInterest3:
         recommended_df3 = recommended_df[recommended_df['Description'].str.contains(researchInterest3, case=False, na=False)]
     if researchInterest1 or researchInterest2 or researchInterest3:
-        recommended_df = pd.merge(recommended_df1, pd.merge(recommended_df2, recommended_df3, how = "outer", on=columns), how='outer', on=columns)
-    
+        recommended_df = pd.concat([recommended_df1, recommended_df2, recommended_df3, recommended_by_model])
     return recommended_df.to_json(orient='records')
 
 @app.route('/recommend_ML', methods=['GET'])
@@ -101,19 +110,11 @@ def recommend_opportunities_ML():
     researchInterest3 = request.args.get('researchInterest3')
     
     columns = ["Title", "Description", "DetailURL", "Research Area", "Opportunity Timing", "Deadline Date"]
-    recommended_df1 = pd.DataFrame(columns=columns)
-    recommended_df2 = pd.DataFrame(columns=columns)
-    recommended_df3 = pd.DataFrame(columns=columns)
     recommended_df = research_opps.copy()
+    recommended_by_model = recommendation.recommend_RO(research_opps, re)
 
-    if researchInterest1:
-        recommended_df1 = recommended_df[recommended_df['Description'].str.contains(researchInterest1, case=False, na=False)]
-    if researchInterest2:
-        recommended_df2 = recommended_df[recommended_df['Description'].str.contains(researchInterest2, case=False, na=False)]
-    if researchInterest3:
-        recommended_df3 = recommended_df[recommended_df['Description'].str.contains(researchInterest3, case=False, na=False)]
     if researchInterest1 or researchInterest2 or researchInterest3:
-        recommended_df = pd.merge(recommended_df1, pd.merge(recommended_df2, recommended_df3, how = "outer", on=columns), how='outer', on=columns)
+        recommended_df = pd.merge(recommended_df, pd.merge(recommended_df2, recommended_df3, how = "outer", on=columns), how='outer', on=columns)
     
     return recommended_df.to_json(orient='records')
 
@@ -129,6 +130,7 @@ def webscrape():
     for row in range(len(research_opps.index)):
         if (len(research_opps.at[row, "Deadline Date"].split(" ")) >= 2):
             research_opps.at[row, "Deadline Date"] = research_opps.at[row, "Deadline Date"].split(" ")[1]
+    research_opps.insert(0, "Id", research_opps.index, False)
 
 
 

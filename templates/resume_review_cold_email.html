@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Nexus Scholar | Resume Review and Cold Emails{% endblock %}
+{% block linkdownload %}class = "active"{% endblock %}
+{% block content %}
+<style>
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+h2 {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+label {
+  font-weight: 500;
+}
+
+.container {
+  max-width: 800px;
+}
+
+/* Customize form appearance */
+form {
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  padding: 1.5rem;
+  background: #fff;
+}
+
+/* Add subtle hover effect to form fields */
+form .form-control:hover, 
+form .form-select:hover {
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(102,175,233,0.5);
+}
+
+/* Improve buttons appearance */
+.btn {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #0056b3, #003f7f);
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #28a745, #1e7e34);
+  border: none;
+}
+
+.btn-success:hover {
+  background: linear-gradient(45deg, #1e7e34, #155724);
+}
+
+/* Subtle shadow for forms */
+.shadow-sm {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+</style>
+<div id = "emails">
+    <div class="container py-5">
+        <h1 class="text-center mb-4 fw-bold">File Upload & Information Forms</h1>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6 bg-white p-4 rounded shadow-sm">
+                <h2 class="h4 mb-3 text-primary">Resume Reviewer</h2>
+                <form action="/upload" method="POST" enctype="multipart/form-data" class="mb-4">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Resume File:</label>
+                        <input type="file" name="file" multiple class="form-control" id="file" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_desc" class="form-label">Job Description File:</label>
+                        <input type="file" name="job_desc" multiple class="form-control" id="job_desc" />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Upload</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 bg-white p-4 rounded shadow-sm">
+                <h2 class="h4 mb-3 text-success">Cold Email Generator</h2>
+                <form action="/emails" method="POST" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Email Type:</label>
+                        <select name="type" id="type" required class="form-select">
+                            <option value="type" selected>Select Type</option>
+                            <option value="initial">Initial</option>
+                            <option value="followup">Follow up</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lname" class="form-label">Full Name:</label>
+                        <input type="text" id="lname" name="lname" class="form-control" placeholder="John Doe">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="collegeName" class="form-label">College Name:</label>
+                        <input type="text" id="collegeName" name="collegeName" class="form-control" placeholder="Harvard University">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="major" class="form-label">Major:</label>
+                        <input type="text" id="major" name="major" class="form-control" placeholder="Computer Science">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="profName" class="form-label">Professor's Name:</label>
+                        <input type="text" id="profName" name="profName" class="form-control" placeholder="Dr. Smith">
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
