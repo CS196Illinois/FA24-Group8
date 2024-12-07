@@ -16,13 +16,14 @@ DATA_PATH = os.path.join(BASE_DIR, 'data', 'research_opportunities.csv')
 
 python_files_dir = os.path.join(BASE_DIR, 'python')
 sys.path.append(python_files_dir)
-import webscraper
-import recommendation
+# import webscraper
+# import recommendation
  
 global research_opps
 UPLOAD_FOLDER = ''
 
 app = Flask(__name__)
+UPLOAD_FOLDER = '/Users/sriramnatarajan/Documents/FA24-Group8/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 

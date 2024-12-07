@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    /* Create a smooth gradient background */
+    background: linear-gradient(135deg, #3c1053, blue);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.confirmation-box {
+    background: rgba(0,0,0,0.4);
+    border-radius: 0.75rem;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+}
+
+/* Fade-in animation for the text */
+.fade-in-text {
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Make the heading glow slightly */
+h1 {
+    text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+strong.text-white {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+/* Responsive text adjustments */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .confirmation-box {
+        padding: 2rem;
+    }
+}
