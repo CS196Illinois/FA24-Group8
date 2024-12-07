@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Nexus Scholar | All Opportunities{% endblock %}
+{% block linkdownload %}class = "active"{% endblock %}
+{% block content %}
+<div id = "filter">
+    <div class="container">
+        <h1 class="text-center" style="margin-bottom: 20px;">Research Opportunity Filter</h1>
+        <form id="filterForm" class="row g-3">
+            <div class="col-md-4">
+                <label for="researchArea" class="form-label">Research Area</label>
+                <input type="text" class="form-control" id="researchArea" name="research_area" placeholder="e.g.: Science">
+            </div>
+            <div class="col-md-4">
+                <label for="opportunityTiming" class="form-label">Opportunity Timing</label>
+                <input type="text" class="form-control" id="opportunityTiming" name="opportunity_timing" placeholder="e.g.: Summer">
+            </div>
+            <div class="col-md-4">
+                <label for="deadlineBefore" class="form-label">Deadline Before</label>
+                <input type="date" class="form-control" id="deadlineBefore" name="deadline_before">
+            </div>
+            <div class="col-12" style="margin-top:20px">
+                <button type="button" class="btn btn-primary" onclick="filterResults()">Filter</button>
+            </div>
+        </form>
+
+        <div class="mt-5">
+            <h3>Filter Results</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Research Area</th>
+                        <th>Timing</th>
+                        <th>Deadline</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable">
+                    <!-- Filter results will be displayed here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
